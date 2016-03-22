@@ -19,10 +19,10 @@ def MotionEstimation(curr,buff,N,M):
 	print("Dividing into macroblocks...")
 	for i in range(0,curr.shape[0],N):
 		for j in range(0,curr.shape[1],M):
-			# 'Making current frame into blocks of dimension NxM and performing three step search (Que 2 & Que 4)'
-			ME = ME + TSS(curr[i:i+N,j:j+M],buff,np.floor((i+i+N)/2),np.floor((j+j+M)/2)) # Finding motion vectors by motion estimation(Que 3)
+			# 'Making current frame into blocks of dimension NxM and performing three step search'
+			ME = ME + TSS(curr[i:i+N,j:j+M],buff,np.floor((i+i+N)/2),np.floor((j+j+M)/2)) # Finding motion vectors by motion estimation
 			centers = centers + [[np.floor((i+i+N)/2),np.floor((j+j+M)/2)]] # Centres of eac macroblock
-			MC[i:i+N,j:j+M] = buff[ME[ind][0]-(N/2):ME[ind][0]+(N/2),ME[ind][1]-(M/2):ME[ind][1]+(M/2)] # Motion Compensated blocks(Que 6)
+			MC[i:i+N,j:j+M] = buff[ME[ind][0]-(N/2):ME[ind][0]+(N/2),ME[ind][1]-(M/2):ME[ind][1]+(M/2)] # Motion Compensated blocks
 			ind+=1
 	return MC,ME,centers
 
@@ -84,7 +84,7 @@ centers = np.array(centers)
 img = np.zeros(MC.shape,np.uint8)
 temp_MC = copy.deepcopy(MC)
 
-#plotting Motion Vectors (Que 5)
+#plotting Motion Vectors
 for i in range(len(ME)):
 	cv2.line(img,(int(ME[i,1]),int(ME[i,0])),(int(centers[i,1]),int(centers[i,0])),1,1,4)
 	cv2.line(temp_MC,(int(ME[i,1]),int(ME[i,0])),(int(centers[i,1]),int(centers[i,0])),1,1,4)
@@ -122,7 +122,7 @@ plt.title("Motion Compensated Frame")
 plt.subplot(2,2,4)
 plt.imshow(abs(MC-frame2),'gray')
 plt.xticks([]), plt.yticks([])
-plt.title("Abs Error with motion compensation") # Que 7
+plt.title("Abs Error with motion compensation")
 
 plt.show()
 
