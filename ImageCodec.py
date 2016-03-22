@@ -1,4 +1,4 @@
-# Just run this program with the image and Huffman_for_hw2.py file in same folder as this code
+# Just run this program with the image and Huffman.py file in same folder as this code
 
 
 import time
